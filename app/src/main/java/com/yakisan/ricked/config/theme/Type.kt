@@ -1,4 +1,4 @@
-package com.yakisan.ricked.ui.theme
+package com.yakisan.ricked.config.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
