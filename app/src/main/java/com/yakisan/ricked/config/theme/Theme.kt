@@ -1,10 +1,29 @@
 package com.example.compose
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import com.yakisan.ricked.MainActivity
+import com.yakisan.ricked.config.theme.CompactDimens
+import com.yakisan.ricked.config.theme.CompactMediumDimens
+import com.yakisan.ricked.config.theme.CompactMediumTypography
+import com.yakisan.ricked.config.theme.CompactSmallDimens
+import com.yakisan.ricked.config.theme.CompactSmallTypography
+import com.yakisan.ricked.config.theme.CompactTypography
+import com.yakisan.ricked.config.theme.ExpandedDimens
+import com.yakisan.ricked.config.theme.ExpandedTypography
+import com.yakisan.ricked.config.theme.LocalAppDimens
+import com.yakisan.ricked.config.theme.MediumDimens
+import com.yakisan.ricked.config.theme.MediumTypography
+import com.yakisan.ricked.config.theme.ProvideAppUtils
 import md_theme_dark_background
 import md_theme_dark_error
 import md_theme_dark_errorContainer
@@ -130,19 +149,66 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun RickedTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
+    activity: Activity = LocalContext.current as MainActivity,
     content: @Composable () -> Unit
 ) {
+    // * Colors
     val colors = if (!useDarkTheme) {
         LightColors
     } else {
         DarkColors
     }
 
-    MaterialTheme(
-        colorScheme = colors,
-        content = content
-    )
+    // * WindowSizeClass
+    val window = calculateWindowSizeClass(activity = activity)
+    val config = LocalConfiguration.current
+
+    var typography = CompactTypography
+    var appDimens = CompactDimens
+
+    when (window.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            if (config.screenWidthDp <= 360) {
+                appDimens = CompactSmallDimens
+                typography = CompactSmallTypography
+            } else if (config.screenWidthDp < 599) {
+                appDimens = CompactMediumDimens
+                typography = CompactMediumTypography
+            } else {
+                appDimens = CompactDimens
+                typography = CompactTypography
+            }
+        }
+
+        WindowWidthSizeClass.Medium -> {
+            appDimens = MediumDimens
+            typography = MediumTypography
+        }
+
+        WindowWidthSizeClass.Expanded -> {
+            appDimens = ExpandedDimens
+            typography = ExpandedTypography
+        }
+
+        else -> {
+            appDimens = ExpandedDimens
+            typography = ExpandedTypography
+        }
+    }
+
+    ProvideAppUtils(dimens = appDimens) {
+        MaterialTheme(
+            colorScheme = colors,
+            typography = typography,
+            content = content
+        )
+    }
 }
+
+val MaterialTheme.dimens
+    @Composable
+    get() = LocalAppDimens.current
