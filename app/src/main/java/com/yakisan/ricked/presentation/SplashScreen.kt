@@ -6,17 +6,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.yakisan.ricked.R
+import com.yakisan.ricked.config.navigation.Screen
+import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreen(navController: NavController?) {
+fun SplashScreen(navController: NavController) {
+
+    // * Splash to Home
+    LaunchedEffect(true) {
+        delay(1000) //1s delay
+        navController.navigate(Screen.HomeScreen.route)
+    }
+
     // * Ricked Logo
     Box(modifier = Modifier.fillMaxSize()) {
         Icon(
@@ -27,15 +40,15 @@ fun SplashScreen(navController: NavController?) {
             contentDescription = "Ricked Logo"
         )
 
+        // * 2024 © Ricked
         Text(
-            text = "2024 Ricked.",
+            text = stringResource(R.string.copyright),
+            color = Color.Gray,
             modifier = Modifier
                 .padding(all = 10.dp)
                 .align(alignment = Alignment.BottomCenter)
         )
-
     }
-
 
 }
 
@@ -43,5 +56,5 @@ fun SplashScreen(navController: NavController?) {
 @Preview(showBackground = true)
 @Composable
 fun SplashPreview() {
-    SplashScreen(navController = null)
+    SplashScreen(navController = rememberNavController())
 }
