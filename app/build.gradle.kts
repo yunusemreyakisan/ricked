@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.navigation.compose) // * Navigation
     implementation(libs.androidx.material3.window.size) // * Window Size
     implementation(libs.kotlinx.coroutines.core) // * Coroutines
+    implementation(libs.navigation.ktx.fragment)
+    implementation(libs.navigation.ktx.ui)
 
     // * Koin for DI
     implementation(libs.koin.core)

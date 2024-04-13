@@ -30,7 +30,7 @@ class CharacterViewModel(private val repository: CharacterRepository) : ViewMode
         }
     }
 
-    fun getAllCharacters() {
+    private fun getAllCharacters() {
         viewModelScope.launch {
             repository.getAllCharacters().collect {
                 _allCharacterFlow.value = it

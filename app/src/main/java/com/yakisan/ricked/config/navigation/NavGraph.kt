@@ -1,13 +1,15 @@
 package com.yakisan.ricked.config.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.yakisan.ricked.presentation.HomeScreen
-import com.yakisan.ricked.presentation.SplashScreen
+import com.yakisan.ricked.presentation.MainScreen
+import com.yakisan.ricked.presentation.pages.FavouriteScreen
+import com.yakisan.ricked.presentation.pages.HomeScreen
+import com.yakisan.ricked.presentation.pages.ProfileScreen
+import com.yakisan.ricked.presentation.pages.SplashScreen
 
 @Composable
 fun Navigation() {
@@ -24,24 +26,26 @@ fun Navigation() {
             SplashScreen(navController)
         }
 
-        // * Home Screen
-        composable(route = Screen.HomeScreen.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            })
+        // * Main Screen
+        composable(route = Screen.MainScreen.route)
         {
-            HomeScreen(navController)
+            MainScreen()
         }
 
+    }
+}
 
+@Composable
+fun BottomNavigationGraph(navController: NavHostController) {
+    NavHost(navController, startDestination = Destinations.HomeScreen.route) {
+        composable(Destinations.HomeScreen.route) {
+            HomeScreen()
+        }
+        composable(Destinations.Favourite.route) {
+            FavouriteScreen()
+        }
+        composable(Destinations.Profile.route) {
+            ProfileScreen()
+        }
     }
 }

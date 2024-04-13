@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.1"
+agp = "8.3.2"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -43,6 +43,9 @@ androidx-koin-android-compose = { module = "io.insert-koin:koin-androidx-compose
 # * Navigation
 navigation-common = { module = "androidx.navigation:navigation-common-ktx", version.ref = "navigation-compose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+navigation-ktx-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-compose" }
+navigation-ktx-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-compose" }
+
 
 # * Window Size
 androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }

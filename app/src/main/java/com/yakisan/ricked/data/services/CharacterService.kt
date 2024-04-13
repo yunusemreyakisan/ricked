@@ -12,7 +12,7 @@ interface CharacterService {
     suspend fun getCharacter(@Path("characterId") id: Int): Character
 
     // * Getting all characters
-    @GET("character/")
+    @GET("character")
     suspend fun getAllCharacters(): Result
 
 }
